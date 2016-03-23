@@ -1,0 +1,45 @@
+{
+  "id": "test",
+  "clusters": {
+    "test": {
+      "keyfile": "mytestkey",
+      "sharding_collection": "reports.reports.chunks",
+      "sharding_database": "reports",
+      "user_admin_login": "siteRootAdmin",
+      "user_admin_password": "password",
+      "databases": [
+        {
+          "name": "database1",
+          "users": [
+            {
+              "login": "user1",
+              "password": "pass1",
+              "roles": ["readWrite"]
+            },
+            {
+              "login": "user3",
+              "password": "pass3",
+              "roles": ["read"]
+            }
+          ]
+        },
+        {
+          "name": "database2",
+          "users": [
+            {
+              "login": "user2",
+              "password": "pass2",
+              "roles": ["dbAdmin"]
+            },
+            {
+              "login": "user3",
+              "password": "pass3",
+              "roles": ["readWrite"]
+            }
+          ]
+        }
+      ],
+      "cfg_replset": "test-local"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+---
+driver:
+  name: vagrant
+  provider: parallels
+
+provisioner:
+  name: chef_zero
+  cookbooks_path: test/fixtures/cookbooks
+  data_bags_path: test/fixtures/data_bags
+
+platforms:
+  - name: centos6.7
+    driver:
+      box: bento/centos-6.7
+
+suites:
+  - name: standalone
+    run_list:
+      - recipe[mongotest::test_standalone]

@@ -1,0 +1,12 @@
+name 'mongodb3-objects'
+maintainer 'The Authors'
+maintainer_email 'akhadiev@parallels.com'
+license 'all_rights'
+description 'Provides LWRP resources to manage mongodb3'
+long_description ''
+version '0.1.0'
+source_url ''
+issues_url ''
+
+depends 'mongodb3'
+depends 'mongo_chef_gem', '~> 0.1.0'
