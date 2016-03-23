@@ -15,13 +15,12 @@ module MongoDbObjects
       require 'mongo'
       require 'bson'
       Chef::Log.info("Init connection to #{mongo_connection_info[:host]}:#{mongo_connection_info[:port]}")
-      client = Mongo::Client.new(["#{mongo_connection_info[:host]}:#{mongo_connection_info[:port]}"],
-                                 database: mongo_connection_info[:database],
-                                 user: mongo_connection_info[:user],
-                                 password: mongo_connection_info[:password],
-                                 connect_timeout: 5,
-                                 connect: :direct)
-      client
+      Mongo::Client.new(["#{mongo_connection_info[:host]}:#{mongo_connection_info[:port]}"],
+                       database: mongo_connection_info[:database],
+                       user: mongo_connection_info[:user],
+                       password: mongo_connection_info[:password],
+                       connect_timeout: 5,
+                       connect: :direct)
     end
 
     def sharding_collection_enabled?(collection)

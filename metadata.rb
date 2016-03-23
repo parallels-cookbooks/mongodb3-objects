@@ -8,5 +8,5 @@ version '0.1.0'
 source_url ''
 issues_url ''
 
-depends 'mongodb3'
+depends 'mongodb3', '~> 5.0'
 depends 'mongo_chef_gem', '~> 0.1.0'
