@@ -1,4 +1,3 @@
-source 'https://supermarket.prls.net'
 source 'https://supermarket.chef.io'
 
 metadata
