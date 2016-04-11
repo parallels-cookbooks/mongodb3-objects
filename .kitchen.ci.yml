@@ -1,7 +1,13 @@
 ---
 driver:
-  name: vagrant
-  provider: parallels
+  name: vz
+  network:
+    Bridged:
+      dhcp: true
+  customize:
+    cpus: 1
+    memory: 1G
+    disk: 10G
 
 provisioner:
   name: chef_zero
@@ -11,7 +17,7 @@ provisioner:
 platforms:
   - name: el6
     driver:
-      box: bento/centos-6.7
+      ostemplate: centos-minimal-6-x86_64
 
 suites:
   - name: standalone
@@ -23,21 +29,21 @@ suites:
       - recipe[mongotest::test_replset]
     driver:
       network:
-        private_network:
-          ip: "172.16.20.10"
+        Private_Network:
+          ip: 172.16.20.10/24
 
   - name: replset2
     run_list:
       - recipe[mongotest::test_replset]
     driver:
       network:
-        private_network:
-          ip: "172.16.20.11"
+        Private_Network:
+          ip: 172.16.20.11/24
 
   - name: replset3
     run_list:
       - recipe[mongotest::test_replset_init]
     driver:
       network:
-        private_network:
-          ip: "172.16.20.12"
+        Private_Network:
+          ip: 172.16.20.12/24
