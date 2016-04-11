@@ -41,3 +41,51 @@ suites:
       network:
         private_network:
           ip: "172.16.20.12"
+
+  - name: shard1
+    run_list:
+      - recipe[mongotest::test_shard]
+    driver:
+      network:
+        private_network:
+          ip: "172.16.20.13"
+
+  - name: shard2
+    run_list:
+      - recipe[mongotest::test_shard]
+    driver:
+      network:
+        private_network:
+          ip: "172.16.20.14"
+
+  - name: cfg1
+    run_list:
+      - recipe[mongotest::test_cfg]
+    driver:
+      network:
+        private_network:
+          ip: "172.16.20.15"
+
+  - name: cfg2
+    run_list:
+      - recipe[mongotest::test_cfg]
+    driver:
+      network:
+        private_network:
+          ip: "172.16.20.16"
+
+  - name: cfg3
+    run_list:
+      - recipe[mongotest::test_cfg_init]
+    driver:
+      network:
+        private_network:
+          ip: "172.16.20.17"
+
+  - name: mongos
+    run_list:
+      - recipe[mongotest::test_mongos]
+    driver:
+      network:
+        private_network:
+          ip: "172.16.20.18"
