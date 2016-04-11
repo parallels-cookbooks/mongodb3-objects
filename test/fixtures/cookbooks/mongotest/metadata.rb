@@ -6,3 +6,4 @@ description      'Test recipes for mongodb3-objects cookbook'
 version          '1.0.0'
 
 depends          'mongodb3-objects'
+depends          'mongodb3'

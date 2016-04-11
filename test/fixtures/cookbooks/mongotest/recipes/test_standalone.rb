@@ -9,7 +9,7 @@
 
 include_recipe 'mongodb3-objects::standalone'
 
-app_info = data_bag_item('keys', 'test')
+app_info = data_bag_item('keys', 'standalone')
 
 mongodb_admin app_info['clusters']['test']['user_admin_login'] do
   password app_info['clusters']['test']['user_admin_password']

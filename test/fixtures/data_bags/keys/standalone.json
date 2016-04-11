@@ -1,5 +1,5 @@
 {
-  "id": "test",
+  "id": "standalone",
   "clusters": {
     "test": {
       "keyfile": "mytestkey",

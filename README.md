@@ -4,6 +4,7 @@
 
 This cookbook is a wrapper over the [mongodb3](https://supermarket.chef.io/cookbooks/mongodb3) cookbook. It contains lwrp resources to create:
 * users
+* replica sets
 * shards (planned)
 * configuration servers (planned)
 * routing servers (planned)
@@ -43,6 +44,15 @@ Creates a user account in specified database with specified role. In MongoDB dat
 |roles|Roles to assign|Hash||
 |database|User database|String|admin|
 
+##### mongodb_replicaset
+
+Creates a replica set with specified members.
+
+###### Attributes
+|Attribute|Description|Type|Default|
+|---------|-----------|----|-------|
+|members|Replica set members in format host:port|Array||
+|config_server|Set config server settings for replica set|Boolean||
 
 ### Examples
 

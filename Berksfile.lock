@@ -17,6 +17,7 @@ GRAPH
     mongo_chef_gem (~> 0.1.0)
     mongodb3 (~> 5.0)
   mongotest (1.0.0)
+    mongodb3 (>= 0.0.0)
     mongodb3-objects (>= 0.0.0)
   packagecloud (0.2.0)
   runit (1.7.6)

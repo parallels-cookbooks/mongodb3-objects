@@ -36,3 +36,15 @@ def user_exists?(mongo_connection_info, user, password, database)
   end
   true
 end
+
+def replicaset_configured?(mongodb_connection_info)
+  begin
+    client = mongo_connection(mongodb_connection_info)
+    db = client.database
+    result = db.command(replSetGetStatus: 1)
+    return false if result.first['ok'] == 0
+  rescue Mongo::Error::OperationFailure
+    return false
+  end
+  true
+end
