@@ -5,9 +5,10 @@
 This cookbook is a wrapper over the [mongodb3](https://supermarket.chef.io/cookbooks/mongodb3) cookbook. It contains lwrp resources to create:
 * users
 * replica sets
-* shards (planned)
-* configuration servers (planned)
-* routing servers (planned)
+* sharding database
+* sharding collection
+* replica sets for config servers
+* routing servers
 
 ### Requirements
 
@@ -53,6 +54,35 @@ Creates a replica set with specified members.
 |---------|-----------|----|-------|
 |members|Replica set members in format host:port|Array||
 |config_server|Set config server settings for replica set|Boolean||
+
+##### mongodb_shard
+
+Add shard to sharding cluster.
+
+###### Attributes
+|Attribute|Description|Type|Default|
+|---------|-----------|----|-------|
+|fqdn|Shard hostname|String||
+|port|Mongodb port on Shard|Integer|27018|
+
+##### mongodb_sharding_database
+
+Configure sharding for database.
+
+###### Attributes
+|Attribute|Description|Type|Default|
+|---------|-----------|----|-------|
+|database|Database name|String||
+
+##### mongodb_sharding_collection
+
+Configure sharding for collection.
+
+###### Attributes
+|Attribute|Description|Type|Default|
+|---------|-----------|----|-------|
+|collection|Collection name|String||
+|shard_key|Sharding key for collection|Hash||
 
 ### Examples
 
