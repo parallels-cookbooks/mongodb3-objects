@@ -47,7 +47,7 @@ action :create do
     db = client.database
     db.command(BSON::Document.new(createUser: new_resource.login,
                                   pwd: new_resource.password,
-                                  roles: %w(userAdmin userAdminAnyDatabase)))
+                                  roles: 'root'))
     new_resource.updated_by_last_action(true)
   rescue Mongo::Error::OperationFailure => e
     Chef::Log.info("can't create admin #{new_resource.login}, #{e}")
