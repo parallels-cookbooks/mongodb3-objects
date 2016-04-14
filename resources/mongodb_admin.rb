@@ -25,7 +25,6 @@ action :create do
     client = Mongo::Client.new(["#{new_resource.connection_host}:#{new_resource.connection_port}"],
                                user: new_resource.login,
                                password: new_resource.password,
-                               database: 'admin',
                                connect_timeout: 5,
                                connect: :direct)
     db = client.database
@@ -41,13 +40,12 @@ action :create do
   begin
     Chef::Log.info("Init connection to #{new_resource.connection_host}:#{new_resource.connection_port}")
     client = Mongo::Client.new(["#{new_resource.connection_host}:#{new_resource.connection_port}"],
-                               database: 'admin',
                                connect_timeout: 5,
                                connect: :direct)
     db = client.database
     db.command(BSON::Document.new(createUser: new_resource.login,
                                   pwd: new_resource.password,
-                                  roles: 'root'))
+                                  roles: ['root']))
     new_resource.updated_by_last_action(true)
   rescue Mongo::Error::OperationFailure => e
     Chef::Log.info("can't create admin #{new_resource.login}, #{e}")
