@@ -12,8 +12,8 @@ resource_name :mongodb_sharding_database
 property :database, kind_of: String, name_attribute: true
 property :connection_host, String, default: '127.0.0.1'
 property :connection_port, Integer, default: 27_017
-property :connection_user, String, default: nil
-property :connection_password, String, default: nil
+property :connection_user, [String, nil], default: nil
+property :connection_password, [String, nil], default: nil
 property :connection_database, String, default: 'admin'
 
 default_action :create
