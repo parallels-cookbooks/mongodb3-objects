@@ -85,6 +85,30 @@ suites:
         private_network:
           ip: "172.16.20.17"
 
+  - name: shard_set1
+    run_list:
+      - recipe[mongotest::test_shard_set]
+    driver:
+      network:
+        private_network:
+          ip: "172.16.20.21"
+
+  - name: shard_set2
+    run_list:
+      - recipe[mongotest::test_shard_set]
+    driver:
+      network:
+        private_network:
+          ip: "172.16.20.22"
+
+  - name: shard_set3
+    run_list:
+      - recipe[mongotest::test_shard_init]
+    driver:
+      network:
+        private_network:
+          ip: "172.16.20.23"
+
   - name: mongos
     run_list:
       - recipe[mongotest::test_mongos]
@@ -92,3 +116,11 @@ suites:
       network:
         private_network:
           ip: "172.16.20.18"
+
+  - name: mongos_set
+    run_list:
+      - recipe[mongotest::test_mongos_set]
+    driver:
+      network:
+        private_network:
+          ip: "172.16.20.19"

@@ -13,7 +13,7 @@ GRAPH
     runit (~> 1.7.0)
     user (>= 0.0.0)
     yum (>= 0.0.0)
-  mongodb3-objects (0.2.1)
+  mongodb3-objects (0.2.2)
     mongo_chef_gem (~> 0.1.0)
     mongodb3 (~> 5.0)
   mongotest (1.0.0)

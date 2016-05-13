@@ -11,6 +11,7 @@ resource_name :mongodb_replicaset
 
 property :replica_set, String, name_property: true
 property :members, Array, required: true
+property :set_version, Integer, default: 1
 property :config_server, [TrueClass, FalseClass], default: false
 property :connection_host, String, default: '127.0.0.1'
 property :connection_port, Integer, default: 27_017
@@ -29,7 +30,7 @@ def replicaset_configured?(mongodb_connection_info)
     result = db.command(replSetGetStatus: 1)
     return false if result.first['ok'] == 0
   rescue Mongo::Error::OperationFailure => ex
-    return false if ex.message =~ /no replset/
+    return false if ex.message =~ /no replset/ || ex.message =~ /not running with --replSet/
   end
   true
 end
@@ -54,6 +55,7 @@ action :create do
     begin
       replicaset_config = BSON::Document.new
       replicaset_config['_id'] = new_resource.replica_set
+      replicaset_config['version'] = new_resource.set_version
       replicaset_config['configsvr'] = new_resource.config_server unless new_resource.config_server.eql? false
       replicaset_config['members'] = []
       member_id = 0
