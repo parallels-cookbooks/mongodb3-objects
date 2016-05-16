@@ -14,7 +14,7 @@ This cookbook is a wrapper over the [mongodb3](https://supermarket.chef.io/cookb
 
 #### Platforms
 
-Tested on Centos 6 only, but could work on any other Linux.
+Tested on Centos 6 and 7, but could work on any other Linux.
 
 #### Cookbooks
 
@@ -24,7 +24,7 @@ Tested on Centos 6 only, but could work on any other Linux.
 
 ##### mongodb_admin
 
-Creates administrator account. If authentication mechanism was enabled in configuration already, only request from localhost to create administrator user will work. See [this](https://docs.mongodb.org/manual/tutorial/enable-authentication/) and [this](https://docs.mongodb.org/manual/core/security-users/#localhost-exception). Login is arbitrary.
+Creates administrator account. If authentication mechanism was enabled in configuration already, only request from localhost to create administrator user will work. See [this](https://docs.mongodb.org/manual/tutorial/enable-authentication/) and [this](https://docs.mongodb.org/manual/core/security-users/#localhost-exception). Login is mandatory.
 
 ###### Attributes
 |Attribute|Description|Type|Default|
@@ -62,8 +62,9 @@ Add shard to sharding cluster.
 ###### Attributes
 |Attribute|Description|Type|Default|
 |---------|-----------|----|-------|
-|fqdn|Shard hostname|String||
+|shard_endpoint|Shard hostname or endpoint in case of replica set|String||
 |port|Mongodb port on Shard|Integer|27018|
+|replicaset|Switch to add replica set as shard|Boolean|false|
 
 ##### mongodb_sharding_database
 
@@ -98,6 +99,7 @@ To install standalone MongoDB use
 
 Also you may see examples in fixture cookbook: test/fixtures/cookbooks/mongotest/recipes.
 
-### Authors
 
-TBD
+### Authors
+* Author:: Andrey Scopenco (ascopenco@parallels.com)
+* Author:: Azat Khadiev (akhadiev@parallels.com)

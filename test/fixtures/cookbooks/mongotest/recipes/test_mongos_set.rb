@@ -16,7 +16,9 @@ node.set['mongodb3']['config']['mongos']['net']['port'] = 27_017
 include_recipe 'mongodb3::mongos'
 
 endpoint = 'ShardReplicaSet/' + app_info['shards_set'].join(',')
-mongodb_shard_replicaset endpoint
+mongodb_shard endpoint do
+  replicaset true
+end
 
 mongodb_sharding_database app_info['sharding_database']
 

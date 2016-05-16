@@ -9,8 +9,9 @@
 
 resource_name :mongodb_shard
 
-property :fqdn, kind_of: String, name_attribute: true
+property :shard_endpoint, kind_of: String, name_attribute: true
 property :port, kind_of: Integer, default: 27_018
+property :replicaset, kind_of: [TrueClass, FalseClass], default: false
 property :connection_host, String, default: '127.0.0.1'
 property :connection_port, Integer, default: 27_017
 property :connection_user, [String, nil], default: nil
@@ -26,7 +27,7 @@ def shard_exists?(mongodb_connection_info, shard)
     client = mongo_connection(mongodb_connection_info)
     db = client.database
     shards = db.command(listShards: 1)
-    return false unless shards.first['shards'].map { |k| k['_id'] }.include? shard
+    return false unless shards.first['shards'].map { |k| k['host'] }.include? shard
   rescue Mongo::Error::OperationFailure
     return false
   end
@@ -46,17 +47,22 @@ action :create do
     database: new_resource.connection_database
   }
 
-  if shard_exists?(connection_info, new_resource.fqdn)
+  if shard_exists?(connection_info, new_resource.shard_endpoint)
     Chef::Log.info('Shard already added')
   else
-    Chef::Log.info("Add shard #{new_resource.fqdn}")
+    Chef::Log.info("Add shard #{new_resource.shard_endpoint}")
     begin
       client = mongo_connection(connection_info)
       db = client.database
-      db.command(BSON::Document.new(addShard: "#{new_resource.fqdn}:#{new_resource.port}", name: new_resource.fqdn))
+      if new_resource.replicaset
+        name = new_resource.shard_endpoint.split('/').first
+        db.command(BSON::Document.new(addShard: new_resource.shard_endpoint, name: name))
+      else
+        db.command(BSON::Document.new(addShard: "#{new_resource.shard_endpoint}:#{new_resource.port}", name: new_resource.shard_endpoint))
+      end
       new_resource.updated_by_last_action(true)
     rescue Mongo::Error::OperationFailure => e
-      Chef::Log.info("can't add shard #{new_resource.fqdn}, #{e}")
+      Chef::Log.info("can't add shard #{new_resource.shard_endpoint}, #{e}")
     end
   end
 end
