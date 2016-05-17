@@ -6,7 +6,7 @@ driver:
       dhcp: true
   customize:
     cpus: 1
-    memory: 1G
+    memory: 512M
     disk: 5G
 
 provisioner:
@@ -20,10 +20,6 @@ platforms:
       ostemplate: centos-minimal-6-x86_64
 
 suites:
-  - name: standalone
-    run_list:
-      - recipe[mongotest::test_standalone]
-
   - name: replset1
     run_list:
       - recipe[mongotest::test_replset]
@@ -112,18 +108,10 @@ suites:
         Private_Network:
           ip: 172.16.20.23/24
 
-  - name: mongos
+  - name: mongos_ci
     run_list:
-      - recipe[mongotest::test_mongos]
+      - recipe[mongotest::test_mongos_ci]
     driver:
       network:
         Private_Network:
           ip: 172.16.20.18/24
-
-  - name: mongos_set
-    run_list:
-      - recipe[mongotest::test_mongos_set]
-    driver:
-      network:
-        Private_Network:
-          ip: 172.16.20.19/24
