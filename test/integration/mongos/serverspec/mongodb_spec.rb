@@ -8,11 +8,11 @@ connection_info = {
 
 describe 'mongodb sharding' do
   it 'has shard 172.16.20.13' do
-    expect(shard_exists?(connection_info, '172.16.20.13')).to eq(true)
+    expect(shard_exists?(connection_info, '172.16.20.13:27018')).to eq(true)
   end
 
   it 'has shard 172.16.20.14' do
-    expect(shard_exists?(connection_info, '172.16.20.13')).to eq(true)
+    expect(shard_exists?(connection_info, '172.16.20.14:27018')).to eq(true)
   end
 
   it "has sharded database 'testdb'" do
