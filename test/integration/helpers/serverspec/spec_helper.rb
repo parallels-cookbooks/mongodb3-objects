@@ -78,19 +78,7 @@ def shard_exists?(mongodb_connection_info, shard)
     client = mongo_connection(mongodb_connection_info)
     db = client.database
     shards = db.command(listShards: 1)
-    return false unless shards.first['shards'].map { |k| k['_id'] }.include? shard
-  rescue Mongo::Error::OperationFailure
-    return false
-  end
-  true
-end
-
-def shard_set_exists?(mongodb_connection_info, host)
-  begin
-    client = mongo_connection(mongodb_connection_info)
-    db = client.database
-    shards = db.command(listShards: 1)
-    return false unless shards.first['shards'].map { |k| k['host'] }.include? host
+    return false unless shards.first['shards'].map { |k| k['host'] }.include? shard
   rescue Mongo::Error::OperationFailure
     return false
   end
