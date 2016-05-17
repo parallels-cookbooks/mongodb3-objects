@@ -15,7 +15,7 @@ node.set['mongodb3']['config']['mongos']['net']['port'] = 27_017
 include_recipe 'mongodb3::mongos'
 
 app_info['shards'].each do |shard|
-  mongodb_shard shard
+  mongodb_shard "#{shard}:27018"
 end
 
 mongodb_sharding_database app_info['sharding_database']

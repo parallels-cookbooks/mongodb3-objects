@@ -10,8 +10,6 @@
 resource_name :mongodb_shard
 
 property :shard_endpoint, kind_of: String, name_attribute: true
-property :port, kind_of: Integer, default: 27_018
-property :replicaset, kind_of: [TrueClass, FalseClass], default: false
 property :connection_host, String, default: '127.0.0.1'
 property :connection_port, Integer, default: 27_017
 property :connection_user, [String, nil], default: nil
@@ -47,22 +45,18 @@ action :create do
     database: new_resource.connection_database
   }
 
-  if shard_exists?(connection_info, new_resource.shard_endpoint)
-    Chef::Log.info('Shard already added')
+  shard_ep = new_resource.shard_endpoint
+  if shard_exists?(connection_info, shard_ep)
+    Chef::Log.info("Shard #{shard_ep} already exists.")
   else
-    Chef::Log.info("Add shard #{new_resource.shard_endpoint}")
+    Chef::Log.info("Add shard #{shard_ep}")
     begin
       client = mongo_connection(connection_info)
       db = client.database
-      if new_resource.replicaset
-        name = new_resource.shard_endpoint.split('/').first
-        db.command(BSON::Document.new(addShard: new_resource.shard_endpoint, name: name))
-      else
-        db.command(BSON::Document.new(addShard: "#{new_resource.shard_endpoint}:#{new_resource.port}", name: new_resource.shard_endpoint))
-      end
+      db.command(BSON::Document.new(addShard: shard_ep, name: shard_ep.split('/').first))
       new_resource.updated_by_last_action(true)
     rescue Mongo::Error::OperationFailure => e
-      Chef::Log.info("can't add shard #{new_resource.shard_endpoint}, #{e}")
+      Chef::Log.info("Can't add shard #{shard_ep}, #{e}")
     end
   end
 end

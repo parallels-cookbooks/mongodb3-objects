@@ -2,13 +2,13 @@
 
 ### Description
 
-This cookbook is a wrapper over the [mongodb3](https://supermarket.chef.io/cookbooks/mongodb3) cookbook. It contains lwrp resources to create:
-* users
-* replica sets
-* sharding database
-* sharding collection
-* replica sets for config servers
-* routing servers
+This cookbook is a wrapper over the [mongodb3](https://supermarket.chef.io/cookbooks/mongodb3) cookbook. It contains LWRP resources to create:
+* [users](https://docs.mongodb.com/manual/tutorial/manage-users-and-roles/)
+* [replica sets](https://docs.mongodb.com/manual/core/replication/)
+* [sharding database](https://docs.mongodb.com/manual/core/sharded-cluster-components/)
+* [sharding collection](https://docs.mongodb.com/v3.0/reference/command/shardCollection/)
+* [replica sets for config servers](https://docs.mongodb.com/manual/core/sharded-cluster-config-servers/)
+* [routing servers (mongos)](https://docs.mongodb.com/manual/reference/program/mongos/)
 
 ### Requirements
 
@@ -18,7 +18,8 @@ Tested on Centos 6 and 7, but could work on any other Linux.
 
 #### Cookbooks
 
-* [mongodb3](https://supermarket.chef.io/cookbooks/mongodb3), ~> 5.0
+* [mongodb3](https://supermarket.chef.io/cookbooks/mongodb3)
+* [mongo_chef_gem](https://supermarket.chef.io/cookbooks/mongodb3)
 
 ### Resources
 
@@ -47,7 +48,7 @@ Creates a user account in specified database with specified role. In MongoDB dat
 
 ##### mongodb_replicaset
 
-Creates a replica set with specified members.
+Creates a replica set with specified members (usually 3).
 
 ###### Attributes
 |Attribute|Description|Type|Default|
@@ -57,18 +58,20 @@ Creates a replica set with specified members.
 
 ##### mongodb_shard
 
-Add shard to sharding cluster.
+Add shard to a sharding cluster. This is essentially [addShard](https://docs.mongodb.com/v3.0/reference/method/sh.addShard/) command. The host parameter can be in any of the following forms:
+- \[hostname\]
+- \[hostname\]:\[port\]
+- \[replica-set-name\]/\[hostname\]
+- \[replica-set-name\]/\[hostname\]:port
 
 ###### Attributes
 |Attribute|Description|Type|Default|
 |---------|-----------|----|-------|
-|shard_endpoint|Shard hostname or endpoint in case of replica set|String||
-|port|Mongodb port on Shard|Integer|27018|
-|replicaset|Switch to add replica set as shard|Boolean|false|
+|shard_endpoint|The hostname of either a standalone database instance or of a replica set. Include the port number if the instance is running on a non-standard port. Include the replica set name if the instance is a replica set.|String|no default|
 
 ##### mongodb_sharding_database
 
-Configure sharding for database.
+Configure sharding for database. This adds `enableSharding` parameter to database configuration.
 
 ###### Attributes
 |Attribute|Description|Type|Default|
@@ -77,13 +80,13 @@ Configure sharding for database.
 
 ##### mongodb_sharding_collection
 
-Configure sharding for collection.
+Enables a collection for sharding and allows MongoDB to begin distributing data among shards. You must run `mongodb_sharding_database` on a database before using this.
 
 ###### Attributes
 |Attribute|Description|Type|Default|
 |---------|-----------|----|-------|
 |collection|Collection name|String||
-|shard_key|Sharding key for collection|Hash||
+|shard_key|The index specification document to use as the shard key. The index must exist prior to the shardCollection command, unless the collection is empty. If the collection is empty, in which case MongoDB creates the index prior to sharding the collection. New in version 2.4: The key may be in the form { field : "hashed" }, which will use the specified field as a hashed shard key.|Hash||
 
 ### Examples
 
