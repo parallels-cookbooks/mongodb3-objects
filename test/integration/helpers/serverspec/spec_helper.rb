@@ -54,11 +54,11 @@ def sharding_db_enabled?(mongodb_connection_info, database)
     client = mongo_connection(mongodb_connection_info)
     client_config = client.use('config')
     db = client_config.database
-    return false unless db[:databases].find(partitioned: true).map { |d| d['_id'] }.include? database
+    return true if db[:databases].find(partitioned: true).map { |d| d['_id'] }.include? database
   rescue Mongo::Error::OperationFailure
     return false
   end
-  true
+  false
 end
 
 def sharding_collection_enabled?(mongodb_connection_info, collection)
@@ -66,11 +66,11 @@ def sharding_collection_enabled?(mongodb_connection_info, collection)
     client = mongo_connection(mongodb_connection_info)
     client_config = client.use('config')
     db = client_config.database
-    return false unless db[:collections].find.map { |d| d['_id'] }.include? collection
+    return true if db[:collections].find.map { |d| d['_id'] }.include? collection
   rescue Mongo::Error::OperationFailure
     return false
   end
-  true
+  false
 end
 
 def shard_exists?(mongodb_connection_info, shard)
@@ -78,9 +78,9 @@ def shard_exists?(mongodb_connection_info, shard)
     client = mongo_connection(mongodb_connection_info)
     db = client.database
     shards = db.command(listShards: 1)
-    return false unless shards.first['shards'].map { |k| k['_id'] }.include? shard
+    return true if shards.first['shards'].map { |k| k['host'] }.include? shard
   rescue Mongo::Error::OperationFailure
     return false
   end
-  true
+  false
 end

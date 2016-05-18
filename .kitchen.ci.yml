@@ -6,8 +6,8 @@ driver:
       dhcp: true
   customize:
     cpus: 1
-    memory: 1G
-    disk: 10G
+    memory: 512M
+    disk: 5G
 
 provisioner:
   name: chef_zero
@@ -20,10 +20,6 @@ platforms:
       ostemplate: centos-minimal-6-x86_64
 
 suites:
-  - name: standalone
-    run_list:
-      - recipe[mongotest::test_standalone]
-
   - name: replset1
     run_list:
       - recipe[mongotest::test_replset]
@@ -88,9 +84,33 @@ suites:
         Private_Network:
           ip: 172.16.20.17/24
 
-  - name: mongos
+  - name: shard_set1
     run_list:
-      - recipe[mongotest::test_mongos]
+      - recipe[mongotest::test_shard_set]
+    driver:
+      network:
+        Private_Network:
+          ip: 172.16.20.21/24
+
+  - name: shard_set2
+    run_list:
+      - recipe[mongotest::test_shard_set]
+    driver:
+      network:
+        Private_Network:
+          ip: 172.16.20.22/24
+
+  - name: shard_set3
+    run_list:
+      - recipe[mongotest::test_shard_init]
+    driver:
+      network:
+        Private_Network:
+          ip: 172.16.20.23/24
+
+  - name: mongos_ci
+    run_list:
+      - recipe[mongotest::test_mongos_ci]
     driver:
       network:
         Private_Network:

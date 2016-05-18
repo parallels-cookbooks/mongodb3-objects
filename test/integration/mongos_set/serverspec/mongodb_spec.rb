@@ -7,12 +7,8 @@ connection_info = {
 }
 
 describe 'mongodb sharding' do
-  it 'has shard 172.16.20.13' do
-    expect(shard_exists?(connection_info, '172.16.20.13:27018')).to eq(true)
-  end
-
-  it 'has shard 172.16.20.14' do
-    expect(shard_exists?(connection_info, '172.16.20.14:27018')).to eq(true)
+  it 'has ShardReplicaSet/172.16.20.21:27018,172.16.20.22:27018,172.16.20.23:27018' do
+    expect(shard_exists?(connection_info, 'ShardReplicaSet/172.16.20.21:27018,172.16.20.22:27018,172.16.20.23:27018')).to eq(true)
   end
 
   it "has sharded database 'testdb'" do
@@ -27,9 +23,5 @@ end
 describe 'mongos' do
   it 'is listening on port 27017' do
     expect(port(27_017)).to be_listening
-  end
-
-  it 'is a running service of mongos' do
-    expect(service('mongos')).to be_running
   end
 end

@@ -9,12 +9,11 @@
 
 resource_name :mongodb_shard
 
-property :fqdn, kind_of: String, name_attribute: true
-property :port, kind_of: Integer, default: 27_018
+property :shard_endpoint, kind_of: String, name_attribute: true
 property :connection_host, String, default: '127.0.0.1'
 property :connection_port, Integer, default: 27_017
-property :connection_user, String, default: nil
-property :connection_password, String, default: nil
+property :connection_user, [String, nil], default: nil
+property :connection_password, [String, nil], default: nil
 property :connection_database, String, default: 'admin'
 
 default_action :create
@@ -26,7 +25,7 @@ def shard_exists?(mongodb_connection_info, shard)
     client = mongo_connection(mongodb_connection_info)
     db = client.database
     shards = db.command(listShards: 1)
-    return false unless shards.first['shards'].map { |k| k['_id'] }.include? shard
+    return false unless shards.first['shards'].map { |k| k['host'] }.include? shard
   rescue Mongo::Error::OperationFailure
     return false
   end
@@ -46,17 +45,18 @@ action :create do
     database: new_resource.connection_database
   }
 
-  if shard_exists?(connection_info, new_resource.fqdn)
-    Chef::Log.info('Shard already added')
+  shard_ep = new_resource.shard_endpoint
+  if shard_exists?(connection_info, shard_ep)
+    Chef::Log.info("Shard #{shard_ep} already exists.")
   else
-    Chef::Log.info("Add shard #{new_resource.fqdn}")
+    Chef::Log.info("Add shard #{shard_ep}")
     begin
       client = mongo_connection(connection_info)
       db = client.database
-      db.command(BSON::Document.new(addShard: "#{new_resource.fqdn}:#{new_resource.port}", name: new_resource.fqdn))
+      db.command(BSON::Document.new(addShard: shard_ep, name: shard_ep.split('/').first))
       new_resource.updated_by_last_action(true)
     rescue Mongo::Error::OperationFailure => e
-      Chef::Log.info("can't add shard #{new_resource.fqdn}, #{e}")
+      Chef::Log.info("Can't add shard #{shard_ep}, #{e}")
     end
   end
 end
