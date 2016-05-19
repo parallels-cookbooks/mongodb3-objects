@@ -21,14 +21,12 @@ default_action :create
 include MongoDbObjects::Helpers
 
 def shard_exists?(mongodb_connection_info, shard)
-  begin
-    client = mongo_connection(mongodb_connection_info)
-    db = client.database
-    shards = db.command(listShards: 1)
-    return shards.first['shards'].map { |k| k['host'] }.include? shard
-  rescue Mongo::Error::OperationFailure
-    return false
-  end
+  client = mongo_connection(mongodb_connection_info)
+  db = client.database
+  shards = db.command(listShards: 1)
+  return shards.first['shards'].map { |k| k['host'] }.include? shard
+rescue Mongo::Error::OperationFailure
+  return false
 end
 
 action :create do

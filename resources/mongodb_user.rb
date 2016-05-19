@@ -24,33 +24,31 @@ default_action :create
 include MongoDbObjects::Helpers
 
 def user_exists?(mongodb_connection_info, user, password, database)
-  begin
-    userexists = false
-    client = mongo_connection(mongodb_connection_info)
-    db = client.database
-    db['system.users'].find.each do |u|
-      if u['user'] == user && u['db'] == database
-        userexists = true
-        break
-      end
+  userexists = false
+  client = mongo_connection(mongodb_connection_info)
+  db = client.database
+  db['system.users'].find.each do |u|
+    if u['user'] == user && u['db'] == database
+      userexists = true
+      break
     end
-    # User exists, but we need to check the password.
-    if userexists
-      begin
-        connection_check = mongodb_connection_info.clone
-        connection_check[:user] = user
-        connection_check[:password] = password
-        connection_check[:database] = database
-        client = mongo_connection(connection_check)
-        client.database.collection_names
-      rescue Mongo::Auth::Unauthorized, Mongo::Error
-        Chef::Log.warn("User password is different! TODO: ADD CODE TO CHANGE PASSWORD")
-      end
-    end
-    return userexists
-  rescue Mongo::Auth::Unauthorized, Mongo::Error => e
-    raise "Error connecting to Mongo:\n #{e}"
   end
+  # User exists, but we need to check the password.
+  if userexists
+    begin
+      connection_check = mongodb_connection_info.clone
+      connection_check[:user] = user
+      connection_check[:password] = password
+      connection_check[:database] = database
+      client = mongo_connection(connection_check)
+      client.database.collection_names
+    rescue Mongo::Auth::Unauthorized, Mongo::Error
+      Chef::Log.warn('User password is different! TODO: ADD CODE TO CHANGE PASSWORD')
+    end
+  end
+  return userexists
+rescue Mongo::Auth::Unauthorized, Mongo::Error => e
+  raise "Error connecting to Mongo:\n #{e}"
 end
 
 action :create do

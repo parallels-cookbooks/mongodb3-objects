@@ -21,14 +21,12 @@ default_action :create
 include MongoDbObjects::Helpers
 
 def sharding_db_enabled?(mongodb_connection_info, database)
-  begin
-    client = mongo_connection(mongodb_connection_info)
-    client_config = client.use('config')
-    db = client_config.database
-    return db[:databases].find(partitioned: true).map { |d| d['_id'] }.include? database
-  rescue Mongo::Error::OperationFailure
-    return false
-  end
+  client = mongo_connection(mongodb_connection_info)
+  client_config = client.use('config')
+  db = client_config.database
+  return db[:databases].find(partitioned: true).map { |d| d['_id'] }.include? database
+rescue Mongo::Error::OperationFailure
+  return false
 end
 
 action :create do
