@@ -25,11 +25,10 @@ def shard_exists?(mongodb_connection_info, shard)
     client = mongo_connection(mongodb_connection_info)
     db = client.database
     shards = db.command(listShards: 1)
-    return false unless shards.first['shards'].map { |k| k['host'] }.include? shard
+    return shards.first['shards'].map { |k| k['host'] }.include? shard
   rescue Mongo::Error::OperationFailure
     return false
   end
-  true
 end
 
 action :create do
@@ -49,14 +48,14 @@ action :create do
   if shard_exists?(connection_info, shard_ep)
     Chef::Log.info("Shard #{shard_ep} already exists.")
   else
-    Chef::Log.info("Add shard #{shard_ep}")
+    Chef::Log.info("Add shard #{shard_ep} to cluster.")
     begin
       client = mongo_connection(connection_info)
       db = client.database
       db.command(BSON::Document.new(addShard: shard_ep, name: shard_ep.split('/').first))
       new_resource.updated_by_last_action(true)
-    rescue Mongo::Error::OperationFailure => e
-      Chef::Log.info("Can't add shard #{shard_ep}, #{e}")
+    rescue Mongo::Auth::Unauthorized, Mongo::Error => e
+      raise "Can't add shard #{shard_ep}:\n#{e}"
     end
   end
 end

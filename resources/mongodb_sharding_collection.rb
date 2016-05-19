@@ -55,8 +55,8 @@ action :create do
       db = client.database
       db.command(BSON::Document.new(shardCollection: new_resource.collection, key: new_resource.shard_key))
       new_resource.updated_by_last_action(true)
-    rescue Mongo::Error::OperationFailure
-      Chef::Log.info("Can't enable sharding for collection #{new_resource.collection}, #{e}")
+    rescue Mongo::Auth::Unauthorized, Mongo::Error => e
+      raise "Can't enable sharding for collection #{new_resource.collection}:\n#{e}"
     end
   end
 end

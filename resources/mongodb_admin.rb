@@ -28,17 +28,15 @@ action :create do
                                connect_timeout: 5,
                                connect: :direct)
     db = client.database
-    Chef::Log.info('Admin already exists')
+    Chef::Log.info('Administrator account already exists.')
     return if db['system.users'].find.map { |d| d['user'] }.include? new_resource.login
-  rescue Mongo::Auth::Unauthorized
-    Chef::Log.info("Admin doesn't exist")
-  rescue Mongo::Error::OperationFailure
+  rescue Mongo::Auth::Unauthorized, Mongo::Error::OperationFailure
     Chef::Log.info("Admin doesn't exist")
   end
 
-  Chef::Log.info("Create admin #{new_resource.login}")
+  Chef::Log.info("Create administrator account #{new_resource.login}")
   begin
-    Chef::Log.info("Init connection to #{new_resource.connection_host}:#{new_resource.connection_port}")
+    Chef::Log.info("Initiate connection to #{new_resource.connection_host}:#{new_resource.connection_port}")
     client = Mongo::Client.new(["#{new_resource.connection_host}:#{new_resource.connection_port}"],
                                connect_timeout: 5,
                                connect: :direct)
@@ -47,7 +45,7 @@ action :create do
                                   pwd: new_resource.password,
                                   roles: ['root']))
     new_resource.updated_by_last_action(true)
-  rescue Mongo::Error::OperationFailure => e
-    Chef::Log.info("can't create admin #{new_resource.login}, #{e}")
+  rescue Mongo::Auth::Unauthorized, Mongo::Error::OperationFailure => e
+    raise "Can't create admin #{new_resource.login}:\n#{e}"
   end
 end
