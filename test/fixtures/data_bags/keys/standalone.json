@@ -2,9 +2,6 @@
   "id": "standalone",
   "clusters": {
     "test": {
-      "keyfile": "mytestkey",
-      "sharding_collection": "reports.reports.chunks",
-      "sharding_database": "reports",
       "user_admin_login": "siteRootAdmin",
       "user_admin_password": "password",
       "databases": [
@@ -38,8 +35,7 @@
             }
           ]
         }
-      ],
-      "cfg_replset": "test-local"
+      ]
     }
   }
 }

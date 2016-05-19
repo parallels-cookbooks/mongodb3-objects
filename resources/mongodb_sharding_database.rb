@@ -21,15 +21,12 @@ default_action :create
 include MongoDbObjects::Helpers
 
 def sharding_db_enabled?(mongodb_connection_info, database)
-  begin
-    client = mongo_connection(mongodb_connection_info)
-    client_config = client.use('config')
-    db = client_config.database
-    return false unless db[:databases].find(partitioned: true).map { |d| d['_id'] }.include? database
-  rescue Mongo::Error::OperationFailure
-    return false
-  end
-  true
+  client = mongo_connection(mongodb_connection_info)
+  client_config = client.use('config')
+  db = client_config.database
+  return db[:databases].find(partitioned: true).map { |d| d['_id'] }.include? database
+rescue Mongo::Error::OperationFailure
+  return false
 end
 
 action :create do
@@ -54,8 +51,8 @@ action :create do
       db = client.database
       db.command(BSON::Document.new(enableSharding: new_resource.database))
       new_resource.updated_by_last_action(true)
-    rescue Mongo::Error::OperationFailure => e
-      Chef::Log.info("Can't enable sharding for database #{new_resource.database}, #{e}")
+    rescue Mongo::Auth::Unauthorized, Mongo::Error => e
+      raise "Can't enable sharding for database #{new_resource.database}:\n#{e}"
     end
   end
 end

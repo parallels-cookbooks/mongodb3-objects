@@ -28,11 +28,11 @@ def replicaset_configured?(mongodb_connection_info)
     client = mongo_connection(mongodb_connection_info)
     db = client.database
     result = db.command(replSetGetStatus: 1)
-    return false if result.first['ok'] == 0
+    return true if result.first['ok'] == 1
   rescue Mongo::Error::OperationFailure => ex
-    return false if ex.message =~ /no replset/ || ex.message =~ /not running with --replSet/
+    return false if ex.message =~ /no replset/
   end
-  true
+  false
 end
 
 action :create do
@@ -76,8 +76,8 @@ action :create do
       db.command('replSetInitiate' => replicaset_config)
       new_resource.updated_by_last_action(true)
 
-    rescue Mongo::Error::OperationFailure => e
-      Chef::Log.info("Can't configure replica set #{new_resource.name}, #{e}")
+    rescue Mongo::Auth::Unauthorized, Mongo::Error => e
+      raise "Can't configure replica set #{new_resource.name}:\n#{e}"
     end
   end
 end
