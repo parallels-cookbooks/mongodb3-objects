@@ -60,7 +60,8 @@ action :create do
       replicaset_config['members'] = []
       member_id = 0
       new_resource.members.each do |member|
-        replicaset_config['members'] << { '_id' => member_id, 'host' => member }
+        member['_id'] = member_id
+        replicaset_config['members'] << member
         member_id += 1
       end
 

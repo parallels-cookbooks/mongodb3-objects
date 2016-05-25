@@ -36,13 +36,21 @@ suites:
         Private_Network:
           ip: 172.16.20.11/24
 
+  - name: replset-hidden
+    run_list:
+      - recipe[mongotest::test_replset]
+    driver:
+      network:
+        Private_Network:
+          ip: 172.16.20.12/24
+
   - name: replset3
     run_list:
       - recipe[mongotest::test_replset_init]
     driver:
       network:
         Private_Network:
-          ip: 172.16.20.12/24
+          ip: 172.16.20.13/24
 
   - name: shard1
     run_list:
@@ -50,7 +58,7 @@ suites:
     driver:
       network:
         Private_Network:
-          ip: 172.16.20.13/24
+          ip: 172.16.20.21/24
 
   - name: shard2
     run_list:
@@ -58,7 +66,7 @@ suites:
     driver:
       network:
         Private_Network:
-          ip: 172.16.20.14/24
+          ip: 172.16.20.22/24
 
   - name: cfg1
     run_list:
@@ -66,7 +74,7 @@ suites:
     driver:
       network:
         Private_Network:
-          ip: 172.16.20.15/24
+          ip: 172.16.20.23/24
 
   - name: cfg2
     run_list:
@@ -74,7 +82,7 @@ suites:
     driver:
       network:
         Private_Network:
-          ip: 172.16.20.16/24
+          ip: 172.16.20.24/24
 
   - name: cfg3
     run_list:
@@ -82,7 +90,7 @@ suites:
     driver:
       network:
         Private_Network:
-          ip: 172.16.20.17/24
+          ip: 172.16.20.25/24
 
   - name: shard_set1
     run_list:
@@ -90,7 +98,7 @@ suites:
     driver:
       network:
         Private_Network:
-          ip: 172.16.20.21/24
+          ip: 172.16.20.26/24
 
   - name: shard_set2
     run_list:
@@ -98,7 +106,7 @@ suites:
     driver:
       network:
         Private_Network:
-          ip: 172.16.20.22/24
+          ip: 172.16.20.27/24
 
   - name: shard_set3
     run_list:
@@ -106,7 +114,7 @@ suites:
     driver:
       network:
         Private_Network:
-          ip: 172.16.20.23/24
+          ip: 172.16.20.28/24
 
   - name: mongos_ci
     run_list:
@@ -114,4 +122,4 @@ suites:
     driver:
       network:
         Private_Network:
-          ip: 172.16.20.18/24
+          ip: 172.16.20.29/24
