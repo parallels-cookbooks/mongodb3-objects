@@ -33,36 +33,33 @@ namespace :integration do
   task :vagrant do
     Kitchen.logger = Kitchen.default_file_logger
     Kitchen::Config.new.instances.each(&:destroy)
-    # replset-el7
-    Kitchen::Config.new.instances.get('replset1-el7').converge
-    Kitchen::Config.new.instances.get('replset2-el7').converge
-    Kitchen::Config.new.instances.get('replset-hidden-el7').converge
-    Kitchen::Config.new.instances.get('replset3-el7').converge
-    Kitchen::Config.new.instances.get('replset1-el7').verify
-    Kitchen::Config.new.instances.get('replset2-el7').verify
-    Kitchen::Config.new.instances.get('replset-hidden-el7').verify
-    Kitchen::Config.new.instances.get('replset3-el7').verify
-    Kitchen::Config.new.instances.each(&:destroy)
-    # sharding-el7
-    Kitchen::Config.new.instances.get('cfg1-el7').converge
-    Kitchen::Config.new.instances.get('cfg2-el7').converge
-    Kitchen::Config.new.instances.get('cfg3-el7').converge
-    Kitchen::Config.new.instances.get('shard1-el7').converge
-    Kitchen::Config.new.instances.get('shard2-el7').converge
-    Kitchen::Config.new.instances.get('shard-set1-el7').converge
-    Kitchen::Config.new.instances.get('shard-set2-el7').converge
-    Kitchen::Config.new.instances.get('shard-set3-el7').converge
-    Kitchen::Config.new.instances.get('mongos-el7').converge
-    Kitchen::Config.new.instances.get('cfg1-el7').verify
-    Kitchen::Config.new.instances.get('cfg2-el7').verify
-    Kitchen::Config.new.instances.get('cfg3-el7').verify
-    Kitchen::Config.new.instances.get('shard1-el7').verify
-    Kitchen::Config.new.instances.get('shard2-el7').verify
-    Kitchen::Config.new.instances.get('shard-set1-el7').verify
-    Kitchen::Config.new.instances.get('shard-set2-el7').verify
-    Kitchen::Config.new.instances.get('shard-set3-el7').verify
-    Kitchen::Config.new.instances.get('mongos-ci-el7').verify
-    Kitchen::Config.new.instances.each(&:destroy)
+
+    # replset
+    replset = %w(
+      replset1-el7
+      replset2-el7
+      replset-hidden-el7
+      replset3-el7
+    )
+    replset.each { |n| Kitchen::Config.new.instances.get(n).converge }
+    replset.each { |n| Kitchen::Config.new.instances.get(n).verify }
+    replset.each { |n| Kitchen::Config.new.instances.get(n).destroy }
+
+    # sharding
+    sharding = %w(
+      cfg1-el7
+      cfg2-el7
+      cfg3-el7
+      shard1-el7
+      shard2-el7
+      shard-set1-el7
+      shard-set2-el7
+      shard-set3-el7
+      mongos-el7
+    )
+    sharding.each { |n| Kitchen::Config.new.instances.get(n).converge }
+    sharding.each { |n| Kitchen::Config.new.instances.get(n).verify }
+    sharding.each { |n| Kitchen::Config.new.instances.get(n).destroy }
   end
 end
 

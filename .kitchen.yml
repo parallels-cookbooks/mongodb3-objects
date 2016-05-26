@@ -124,11 +124,3 @@ suites:
       network:
         private_network:
           ip: "172.16.20.29"
-
-  - name: mongos_set
-    run_list:
-      - recipe[mongotest::test_mongos_set]
-    driver:
-      network:
-        private_network:
-          ip: "172.16.20.30"

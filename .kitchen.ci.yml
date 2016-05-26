@@ -119,9 +119,9 @@ suites:
         Private_Network:
           ip: 172.16.20.28/24
 
-  - name: mongos_ci
+  - name: mongos
     run_list:
-      - recipe[mongotest::test_mongos_ci]
+      - recipe[mongotest::test_mongos]
     driver:
       network:
         Private_Network:
