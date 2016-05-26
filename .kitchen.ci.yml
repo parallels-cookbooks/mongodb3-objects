@@ -18,6 +18,9 @@ platforms:
   - name: el6
     driver:
       ostemplate: centos-minimal-6-x86_64
+  - name: el7
+    driver:
+      ostemplate: centos-minimal-7-x86_64
 
 suites:
   - name: replset1

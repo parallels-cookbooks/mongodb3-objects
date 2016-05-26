@@ -33,8 +33,35 @@ namespace :integration do
   task :vagrant do
     Kitchen.logger = Kitchen.default_file_logger
     Kitchen::Config.new.instances.each(&:destroy)
-    Kitchen::Config.new.instances.each(&:converge)
-    Kitchen::Config.new.instances.each(&:verify)
+    # replset-el7
+    Kitchen::Config.new.instances.get('replset1-el7').converge
+    Kitchen::Config.new.instances.get('replset2-el7').converge
+    Kitchen::Config.new.instances.get('replset-hidden-el7').converge
+    Kitchen::Config.new.instances.get('replset3-el7').converge
+    Kitchen::Config.new.instances.get('replset1-el7').verify
+    Kitchen::Config.new.instances.get('replset2-el7').verify
+    Kitchen::Config.new.instances.get('replset-hidden-el7').verify
+    Kitchen::Config.new.instances.get('replset3-el7').verify
+    Kitchen::Config.new.instances.each(&:destroy)
+    # sharding-el7
+    Kitchen::Config.new.instances.get('cfg1-el7').converge
+    Kitchen::Config.new.instances.get('cfg2-el7').converge
+    Kitchen::Config.new.instances.get('cfg3-el7').converge
+    Kitchen::Config.new.instances.get('shard1-el7').converge
+    Kitchen::Config.new.instances.get('shard2-el7').converge
+    Kitchen::Config.new.instances.get('shard-set1-el7').converge
+    Kitchen::Config.new.instances.get('shard-set2-el7').converge
+    Kitchen::Config.new.instances.get('shard-set3-el7').converge
+    Kitchen::Config.new.instances.get('mongos-el7').converge
+    Kitchen::Config.new.instances.get('cfg1-el7').verify
+    Kitchen::Config.new.instances.get('cfg2-el7').verify
+    Kitchen::Config.new.instances.get('cfg3-el7').verify
+    Kitchen::Config.new.instances.get('shard1-el7').verify
+    Kitchen::Config.new.instances.get('shard2-el7').verify
+    Kitchen::Config.new.instances.get('shard-set1-el7').verify
+    Kitchen::Config.new.instances.get('shard-set2-el7').verify
+    Kitchen::Config.new.instances.get('shard-set3-el7').verify
+    Kitchen::Config.new.instances.get('mongos-ci-el7').verify
     Kitchen::Config.new.instances.each(&:destroy)
   end
 end
