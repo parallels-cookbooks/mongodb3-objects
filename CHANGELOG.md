@@ -1,3 +1,6 @@
+## 0.4.0 (May 30, 2016)
+  - Change LWRP mongo_replicaset
+
 ## 0.3.1 (May 19, 2016)
   - Now resources fail hard if creation didn't succeed.
 
