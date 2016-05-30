@@ -52,8 +52,8 @@ Creates a replica set with specified members (usually 3).
 
 ###### Attributes
 |Attribute|Description|Type|Default|
-|---------|-----------|----|-------|
-|members|Replica set members in format host:port|Array||
+|---------|-----------|----|-------|§
+|members|Replica set members in format [{"host": "host1:port"}, {"host": "host2:port", "priority": 2}] |Array||
 |config_server|Set config server settings for replica set|Boolean||
 
 ##### mongodb_shard
