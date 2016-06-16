@@ -30,6 +30,7 @@ def replicaset_configured?(mongodb_connection_info)
     result = db.command(replSetGetStatus: 1)
     return true if result.first['ok'] == 1
   rescue Mongo::Error::OperationFailure => ex
+    return true if ex.message =~ /not authorized on admin to execute command/
     return false if ex.message =~ /no replset/
   end
   false
