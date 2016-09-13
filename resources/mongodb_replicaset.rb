@@ -50,9 +50,9 @@ action :create do
   }
 
   if replicaset_configured?(connection_info)
-    Chef::Log.info("Replica set #{new_resource.name} already configured")
+    Chef::Log.warn("Replica set #{new_resource.name} already configured")
   else
-    Chef::Log.info('Initializing replica set...')
+    Chef::Log.warn('Initializing replica set...')
     begin
       replicaset_config = BSON::Document.new
       replicaset_config['_id'] = new_resource.replica_set
@@ -66,7 +66,7 @@ action :create do
         member_id += 1
       end
 
-      Chef::Log.info("Replica set configuration #{replicaset_config}")
+      Chef::Log.warn("Replica set configuration #{replicaset_config}")
 
       if new_resource.connection_database
         client_nodb = mongo_connection(connection_info)

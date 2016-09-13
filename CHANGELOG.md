@@ -1,3 +1,6 @@
+## 0.4.3 (Sep 13, 2016)
+  - Update logging to warn
+
 ## 0.4.0 (May 30, 2016)
   - Change LWRP mongo_replicaset
 
