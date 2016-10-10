@@ -27,3 +27,11 @@ app_info['clusters']['test']['databases'].each do |db|
     end
   end
 end
+
+mongodb_collection_index 'firstkey_1_secondkey_-1' do
+  collection 'coll'
+  database 'database1'
+  index key: { firstkey: 1, secondkey: -1 }, unique: 1
+  connection_user app_info['clusters']['test']['user_admin_login']
+  connection_password app_info['clusters']['test']['user_admin_password']
+end
