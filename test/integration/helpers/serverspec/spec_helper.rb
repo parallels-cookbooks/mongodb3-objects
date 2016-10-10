@@ -84,3 +84,16 @@ def shard_exists?(mongodb_connection_info, shard)
   end
   false
 end
+
+def mongodb_collection_index_exists?(mongodb_connection_info, database, collection, name)
+  begin
+    client = mongo_connection(mongodb_connection_info)
+    client_db = client.use(database)
+    db = client_db.database
+    inds = db.command(BSON::Document.new(listIndexes: collection)).first
+    return true if inds[:cursor][:firstBatch].map { |d| d[:name] }.include? name
+  rescue Mongo::Error::OperationFailure
+    return false
+  end
+  false
+end

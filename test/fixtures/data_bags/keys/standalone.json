@@ -3,7 +3,7 @@
   "clusters": {
     "test": {
       "user_admin_login": "siteRootAdmin",
-      "user_admin_password": "password",
+      "user_admin_password": "pass",
       "databases": [
         {
           "name": "database1",

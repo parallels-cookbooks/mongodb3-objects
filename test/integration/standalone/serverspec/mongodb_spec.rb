@@ -31,3 +31,9 @@ describe 'user3' do
     expect(user_exists?(connection_info, 'user3', 'pass3', 'database2')).to eq(true)
   end
 end
+
+describe 'index in database1 and collection coll' do
+  it 'should exist' do
+    expect(mongodb_collection_index_exists?(connection_info, 'database1', 'coll', 'firstkey_1_secondkey_-1')).to eq(true)
+  end
+end
