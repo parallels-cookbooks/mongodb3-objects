@@ -8,12 +8,8 @@ provisioner:
   data_bags_path: test/fixtures/data_bags
 
 platforms:
-  - name: el6
-    driver:
-      box: bento/centos-6.7
-  - name: el7
-    driver:
-      box: bento/centos-7.2
+  - name: centos-6.8
+  - name: centos-7.2
 
 suites:
   - name: standalone
