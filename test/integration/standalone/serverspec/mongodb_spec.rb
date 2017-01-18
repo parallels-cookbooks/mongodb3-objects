@@ -5,7 +5,7 @@ connection_info = {
   port: 27_017,
   user: 'siteRootAdmin',
   password: 'pass',
-  database: 'admin'
+  database: 'admin',
 }
 
 describe 'user1' do

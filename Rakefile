@@ -1,10 +1,10 @@
 #!/usr/bin/env rake
 
 require 'rspec/core/rake_task'
-require 'rubocop/rake_task'
 require 'foodcritic'
+require 'cookstyle'
 require 'kitchen'
-require 'chef-dk/cli'
+require 'rubocop/rake_task'
 
 # Style tests. Rubocop and Foodcritic
 namespace :style do
@@ -15,7 +15,7 @@ namespace :style do
   FoodCritic::Rake::LintTask.new(:chef) do |t|
     t.options = {
       fail_tags: ['any'],
-      chef_version: '12.6.0'
+      progress: true,
     }
   end
 end

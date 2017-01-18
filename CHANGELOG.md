@@ -1,3 +1,9 @@
+## 0.4.5 (Jan 18, 2017)
+  - Release to community
+
+## 0.4.4 (Sep 13, 2016)
+  - Add mongodb_collection_index LWRP
+
 ## 0.4.3 (Sep 13, 2016)
   - Update logging to warn
 

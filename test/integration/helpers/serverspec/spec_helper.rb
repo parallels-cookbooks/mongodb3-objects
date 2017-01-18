@@ -42,7 +42,7 @@ def replicaset_configured?(mongodb_connection_info)
     client = mongo_connection(mongodb_connection_info)
     db = client.database
     result = db.command(replSetGetStatus: 1)
-    return false if result.first['ok'] == 0
+    return false if result.first['ok'].zero?
   rescue Mongo::Error::OperationFailure
     return false
   end
