@@ -124,9 +124,11 @@ Also you may see examples in fixture cookbook: test/fixtures/cookbooks/mongotest
 
 ## License & Authors
 * Author:: Azat Khadiev (akhadiev@parallels.com)
-* Author:: Andrei Skopenko <andrey@skopenko.net>
+* Author:: Andrei Skopenko (andrey@skopenko.net)
 
 ```text
+Copyright:: 2016-2017 Parallels International GmbH
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at

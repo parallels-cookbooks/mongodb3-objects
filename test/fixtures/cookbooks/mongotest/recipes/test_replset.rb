@@ -2,7 +2,7 @@
 # Cookbook Name:: mongotest
 # Recipe:: test_replset
 #
-# Copyright (c) 2016-2017 The Authors, All Rights Reserved.
+# Copyright:: 2016-2017 Parallels International GmbH
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
