@@ -1,6 +1,6 @@
 name 'mongodb3-objects'
 maintainer 'The Authors'
-maintainer_email 'andrey@skopenko.net'
+maintainer_email 'andrei@skopenko.net'
 license 'Apache 2.0'
 description 'Provides LWRP resources to manage MongoDB 3.x'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
