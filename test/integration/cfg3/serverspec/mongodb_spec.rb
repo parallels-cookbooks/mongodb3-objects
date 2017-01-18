@@ -3,7 +3,7 @@ require 'spec_helper'
 connection_info = {
   host: '127.0.0.1',
   port: 27_019,
-  database: 'admin'
+  database: 'admin',
 }
 
 describe 'mongodb replica set' do
