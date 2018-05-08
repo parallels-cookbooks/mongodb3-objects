@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-node.set['mongodb3']['config']['mongod']['security']['authorization'] = 'enabled'
+node.default['mongodb3']['config']['mongod']['security']['authorization'] = 'enabled'
 
 include_recipe 'mongodb3::package_repo'
 include_recipe 'mongodb3::default'

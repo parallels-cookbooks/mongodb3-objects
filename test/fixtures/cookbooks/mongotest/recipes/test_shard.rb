@@ -17,8 +17,8 @@
 # limitations under the License.
 #
 
-node.set['mongodb3']['config']['mongod']['sharding']['clusterRole'] = 'shardsvr'
-node.set['mongodb3']['config']['mongod']['net']['port'] = 27_018
+node.default['mongodb3']['config']['mongod']['sharding']['clusterRole'] = 'shardsvr'
+node.default['mongodb3']['config']['mongod']['net']['port'] = 27_018
 
 include_recipe 'mongodb3-objects::default'
 include_recipe 'mongodb3::package_repo'

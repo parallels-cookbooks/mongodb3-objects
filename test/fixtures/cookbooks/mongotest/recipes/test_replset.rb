@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-node.set['mongodb3']['config']['mongod']['replication']['replSetName'] = 'TestReplSet'
+node.default['mongodb3']['config']['mongod']['replication']['replSetName'] = 'TestReplSet'
 
 include_recipe 'mongodb3-objects::default'
 include_recipe 'mongodb3::package_repo'

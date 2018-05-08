@@ -21,8 +21,8 @@ app_info = data_bag_item('keys', 'sharding')
 
 include_recipe 'mongodb3-objects::default'
 include_recipe 'mongodb3::package_repo'
-node.set['mongodb3']['config']['mongos']['sharding']['configDB'] = "#{app_info['config_relset']}/#{app_info['config_servers'].map { |n| n['host'] }.join(',')}"
-node.set['mongodb3']['config']['mongos']['net']['port'] = 27_017
+node.default['mongodb3']['config']['mongos']['sharding']['configDB'] = "#{app_info['config_relset']}/#{app_info['config_servers'].map { |n| n['host'] }.join(',')}"
+node.default['mongodb3']['config']['mongos']['net']['port'] = 27_017
 include_recipe 'mongodb3::mongos'
 
 mongodb_shard "ShardReplicaSet/#{app_info['shards_set'].map { |n| n['host'] }.join(',')}"
